@@ -37,7 +37,10 @@ public class Config {
      * @throws IOException - thrown if cannot read configuration file
      */
     public void readProperties() throws IOException {
-    	// TODO code here
+    	properties = new Properties();
+    	FileInputStream fileInputStream = new FileInputStream(CONFIG_FILE);
+    	properties.loadFromXML(fileInputStream);
+    	System.out.println(getProperty("port"));
     }
 
     /**

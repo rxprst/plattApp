@@ -15,16 +15,18 @@ public class TinyWS {
 
     /**
      * Main routine - instantiate tiny web server, start listening for browser requests
+     * @throws IOException 
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         TinyWS tiny = new TinyWS();
         tiny.listen();
     }
 
     /**
      * Constructor - read and set configuration
+     * @throws IOException 
      */
-    public TinyWS() {
+    public TinyWS() throws IOException {
         Config config = new Config();
        // TODO code here
         config.dumpProperties();
