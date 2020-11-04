@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 
 public class HTTPRequestTest {
 
-    public static final String GOODREQUEST = "GET /path1/path2/index.html\nmore stuff\nmore stuff";
+    public static final String GOODREQUEST = "GET /path1/path2/index.html";
     public static final String BADREQUEST = "bogus";
 
     @Test
