@@ -1,7 +1,17 @@
 package edu.cscc;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.*;
+
+import com.sun.net.httpserver.HttpContext;
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+import com.sun.net.httpserver.HttpServer;
 
 /**
  * TinyWS a simplistic Tiny Web Server
@@ -12,6 +22,11 @@ public class TinyWS {
     private static int port;
     private static String defaultFolder;
     private static String defaultPage;
+    private ServerSocket serverSocket;
+    private Socket clientSocket;
+    private PrintWriter out;
+    private BufferedReader in;
+    private RequestHandler requestHandler = new RequestHandler(clientSocket);
 
     /**
      * Main routine - instantiate tiny web server, start listening for browser requests
@@ -20,6 +35,7 @@ public class TinyWS {
     public static void main(String[] args) throws IOException {
         TinyWS tiny = new TinyWS();
         tiny.listen();
+
     }
 
     /**
@@ -36,8 +52,47 @@ public class TinyWS {
      * Listen on server socket
      */
     public void listen() {
-    	// TODO code here
-    }
+    	InetAddress ip = null;
+		try {
+			ip = InetAddress.getByName("127.0.0.1");
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+ 
+    	try {
+			serverSocket = new ServerSocket(80, 10);
+			   System.out.println("Server is listening on port " + 80);
+			   
+			while(true) {
+				Socket socket = serverSocket.accept();
+				System.out.println("New Client Connected");
+				System.out.println(ip.getCanonicalHostName());
+				requestHandler.processRequest();
+				
+				InputStream input= socket.getInputStream();
+				BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+				
+				OutputStream output = socket.getOutputStream();
+				PrintWriter writer = new PrintWriter(output, true);
+				
+				String text;
+				
+				writer.println("HTTP/1.0 200 OK");
+				writer.println("Content-Type: text/html");
+				writer.println("Server: Bot");
+				
+				writer.println("");
+				
+				writer.println("<H1> Welcomne to the server</H2>");
+				writer.flush();
+				socket.close();
+				
+			}
+			} catch (IOException ex) {
+				fatalError(ex);
+			}
+    	}
 
     /**
      * Log web server requests

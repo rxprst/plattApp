@@ -41,6 +41,7 @@ public class Config {
     	FileInputStream fileInputStream = new FileInputStream(CONFIG_FILE);
     	properties.loadFromXML(fileInputStream);
     	System.out.println(getProperty("port"));
+    	fileInputStream.close();
     }
 
     /**
