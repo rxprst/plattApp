@@ -7,9 +7,10 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Properties;
 
+
 /**
  * Process web server configuration
- * @author student name
+ * @author Rexford Priest, Reid Schrein
  */
 public class Config {
     public static final String PORT = "port";
@@ -35,13 +36,14 @@ public class Config {
     /**
      * Initialize properties
      * @throws IOException - thrown if cannot read configuration file
+     * Loads appropriate properties on the given input stream
      */
     public void readProperties() throws IOException {
-    	properties = new Properties();
-    	FileInputStream fileInputStream = new FileInputStream(CONFIG_FILE);
-    	properties.loadFromXML(fileInputStream);
-    	System.out.println(getProperty("port"));
-    	fileInputStream.close();
+        File file = new File(CONFIG_FILE);
+        FileInputStream fileInput = new FileInputStream(file);
+        properties = new Properties();
+        properties.loadFromXML(fileInput);
+        fileInput.close();
     }
 
     /**
@@ -65,3 +67,4 @@ public class Config {
         }
     }
 }
+

@@ -5,7 +5,7 @@ import java.net.*;
 
 /**
  * ResponseHandler - send HTTP response
- * @author student name
+ * @author  Rexford Priest, Reid Schrein
  */
 public class ResponseHandler {
     private static final String NOT_FOUND_RESPONSE =
@@ -75,6 +75,7 @@ public class ResponseHandler {
         // Make path relative to current project directory
         if (path.startsWith("/")) path = TinyWS.getDefaultFolder() + path;
         else path = TinyWS.getDefaultFolder() + "/" + path;
+
 
         // If it's a directory - append index.html
         File f = new File(path);
@@ -149,7 +150,28 @@ public class ResponseHandler {
     // Return mimetype based on file suffix (or null if error)
     private String getMimeType(String path) {
         String mimeType = null;
-        // TODO code here
+        String ext = "";
+        int i = path.lastIndexOf('.');
+        if (i > 0) {
+            ext = path.substring(i);
+        }
+
+        switch (ext) {
+            case ".html":
+                mimeType = "text/html";
+                break;
+            case ".txt":
+                mimeType = "text/plain";
+                break;
+            case ".gif":
+                mimeType = "image/gif";
+                break;
+            case ".jpg":
+                mimeType = "image/jpeg";
+                break;
+            default:
+                mimeType = null;
+        }
         return mimeType;
     }
 }
